@@ -2,5 +2,6 @@
 {
     public class Degree
     {
+        public int Grade{get;set;}
     }
 }
