@@ -1,9 +1,31 @@
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.EntityFrameworkCore;
+using UCVstudents.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddRazorPages();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+    .AddDefaultTokenProviders()
+    .AddDefaultUI()
+    .AddEntityFrameworkStores<ApplicationDbContext>(); // asigură-te că ai și EF configurat
+
+
+
 var app = builder.Build();
+
+app.MapRazorPages();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -18,6 +40,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+
 app.MapStaticAssets();
 
 app.MapControllerRoute(
@@ -26,4 +49,7 @@ app.MapControllerRoute(
     .WithStaticAssets();
 
 
+
 app.Run();
+
+app.MapRazorPages();
