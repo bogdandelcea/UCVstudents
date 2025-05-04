@@ -1,4 +1,5 @@
 ﻿using UCVstudents.Data;
+using UCVstudents.Models;
 using UCVstudents.Repositories.Interfaces;
 
 namespace UCVstudents.Repositories
@@ -12,6 +13,9 @@ namespace UCVstudents.Repositories
             _context = context;
         }
 
-        // Vom adăuga metode în pasul următor (ex: GetAll, GetById etc.)
+        public IEnumerable<Student> GetAll()
+        {
+            return _context.Students.ToList();
+        }
     }
 }
