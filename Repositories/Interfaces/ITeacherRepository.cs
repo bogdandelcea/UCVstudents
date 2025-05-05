@@ -2,7 +2,8 @@ using UCVstudents.Models;
 
 namespace UCVstudents.Repositories.Interfaces
 {
-    public interface ITeacherRepository : IRepositoryBase<Teacher>
+    public interface ITeacherRepository 
     {
+       IEnumerable<Teacher> GetAll();
     }
 }
