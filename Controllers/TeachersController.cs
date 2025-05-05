@@ -4,9 +4,16 @@ namespace UCVstudents.Controllers
 {
     public class TeachersController : Controller
     {
-        public IActionResult Index()
+      private readonly ITeacherService _teacherSerivce;
+      
+      public TeacherController(ITeacherService teacherService)
+      {
+         _teacherService = teacherService;
+      }
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var teachers = await _teacherService.GetAllTeachersAsync();
+            return View(teachers);
         }
     }
 }
