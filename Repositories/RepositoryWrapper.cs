@@ -7,6 +7,7 @@ namespace UCVstudents.Repositories
     {
         private readonly ApplicationDbContext _context;
         private IStudentRepository _student;
+        private ITeacherRepository? _teacherRepository;
 
         public RepositoryWrapper(ApplicationDbContext context)
         {
@@ -22,6 +23,18 @@ namespace UCVstudents.Repositories
                     _student = new StudentRepository(_context);
                 }
                 return _student;
+            }
+        }
+        
+        public ITeacherRepository TeacherRepository
+        {
+            get
+            {
+                if (_teacherRepository == null)
+                {
+                    _teacherRepository = new TeacherRepository(_context);
+                }
+                return _teacherRepository;
             }
         }
 
