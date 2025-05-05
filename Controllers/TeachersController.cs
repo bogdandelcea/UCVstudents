@@ -1,12 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using UCVstudents.Services.Interfaces;
 
 namespace UCVstudents.Controllers
 {
     public class TeachersController : Controller
     {
-        public IActionResult Index()
+        private readonly ITeacherService _teacherService;
+
+        public TeachersController(ITeacherService teacherService)
         {
-            return View();
+            _teacherService = teacherService;
+        }
+
+        public async Task<IActionResult> Index()
+        {
+            var teachers = await _teacherService.GetAllTeachersAsync();
+            return View(teachers);
         }
     }
 }
