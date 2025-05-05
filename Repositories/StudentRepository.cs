@@ -1,21 +1,17 @@
-﻿using UCVstudents.Data;
-using UCVstudents.Models;
-using UCVstudents.Repositories.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using UCVStudents.Data;
+using UCVStudents.Models;
+using UCVStudents.Repositories.Interfaces;
 
-namespace UCVstudents.Repositories
+namespace UCVStudents.Repositories
 {
-    public class StudentRepository : IStudentRepository
+    public class StudentRepository : RepositoryBase<Student>, IStudentRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public StudentRepository(ApplicationDbContext context)
+        public StudentRepository(ApplicationDbContext applicationDbContext)
+            : base(applicationDbContext)
         {
-            _context = context;
+
         }
 
-        public IEnumerable<Student> GetAll()
-        {
-            return _context.Students.ToList();
-        }
     }
 }
