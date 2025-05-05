@@ -1,6 +1,6 @@
-using UCVStudents.Models;
+using UCVstudents.Models;
 
-namespace UCVStudents.Repositories.Interfaces
+namespace UCVstudents.Repositories.Interfaces
 {
     public interface ITeacherRepository : IRepositoryBase<Teacher>
     {
