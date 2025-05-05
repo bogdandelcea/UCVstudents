@@ -24,6 +24,18 @@ namespace UCVstudents.Repositories
                 return _student;
             }
         }
+        private ITeacherRepository? _teacherRepository;
+public ITeacherRepository TeacherRepository
+{
+    get
+    {
+        if (_teacherRepository == null)
+        {
+            _teacherRepository = new TeacherRepository(_context);
+        }
+        return _teacherRepository;
+    }
+}
 
         public void Save()
         {
