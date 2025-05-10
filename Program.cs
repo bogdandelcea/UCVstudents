@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using UCVstudents.Data;
+using Microsoft.Extensions.DependencyInjection;
+using UCVstudents.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+var scope = app.Services.CreateScope();
+var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+await RoleSeeder.SeedRolesAsync(roleManager);
 
 // Configurare pipeline
 if (!app.Environment.IsDevelopment())
