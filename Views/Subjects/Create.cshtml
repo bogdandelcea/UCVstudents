@@ -1,0 +1,9 @@
+@model UCVstudents.Models.Subject
+<h2>Create Subject</h2>
+<form asp-action="Create" method="post">
+    <label>Name</label><input asp-for="Name" class="form-control" />
+    <label>Description</label><input asp-for="Description" class="form-control" />
+    <label>Credits</label><input asp-for="Credits" class="form-control" />
+    <label>Faculty</label><input asp-for="Faculty" class="form-control" />
+    <button type="submit">Create</button>
+</form>

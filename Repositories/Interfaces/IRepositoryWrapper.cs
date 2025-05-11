@@ -5,6 +5,8 @@
         IStudentRepository Student { get; }
         ITeacherRepository Teacher { get; }
         // Adaugă și altele ulterior (ex: ITeacherRepository, IUserRepository etc.)
+        ISubjectRepository Subject { get; }
+
         void Save();
     }
 }
