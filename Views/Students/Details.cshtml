@@ -1,0 +1,10 @@
+@model UCVstudents.Models.Student
+<h2>Student Details</h2>
+<div>
+    <strong>First Name:</strong> @Model.FirstName<br />
+    <strong>Last Name:</strong> @Model.LastName<br />
+    <strong>Email:</strong> @Model.Email<br />
+    <strong>Registration Number:</strong> @Model.RegistrationNumber<br />
+    <strong>Enrollment Date:</strong> @Model.EnrollmentDate.ToShortDateString()<br />
+</div>
+<p><a href="/Student/Edit/@Model.Id">Edit</a> | <a href="/Student/Index">Back to List</a></p>
