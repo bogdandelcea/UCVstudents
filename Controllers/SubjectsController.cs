@@ -60,7 +60,8 @@ namespace UCVstudents.Controllers
             return View(subject);
         }
 
-        [HttpPost, ActionName("DeleteConfirmed")]
+        [HttpPost, ActionName("Delete")]
+
         public IActionResult DeleteConfirmed(int id)
         {
             _subjectService.Delete(id);
