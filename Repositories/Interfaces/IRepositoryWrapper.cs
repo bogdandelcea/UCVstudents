@@ -6,6 +6,7 @@
         ITeacherRepository Teacher { get; }
         // Adaugă și altele ulterior (ex: ITeacherRepository, IUserRepository etc.)
         ISubjectRepository Subject { get; }
+        IGradeRepository Grade {get; }
 
         void Save();
     }
