@@ -8,11 +8,11 @@ using UCVstudents.Models;
 
 namespace UCVstudents.Controllers
 {
-    public class GradeController : Controller
+    public class GradesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public GradeController(ApplicationDbContext context)
+        public GradesController(ApplicationDbContext context)
         {
             _context = context;
         }
