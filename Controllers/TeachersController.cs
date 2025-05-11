@@ -1,22 +1,70 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using UCVstudents.Models;
 using UCVstudents.Services.Interfaces;
 
 namespace UCVstudents.Controllers
 {
-    public class TeachersController : Controller
+    public class TeacherController : Controller
     {
         private readonly ITeacherService _teacherService;
 
-        public TeachersController(ITeacherService teacherService)
+        public TeacherController(ITeacherService teacherService)
         {
             _teacherService = teacherService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index() => View(_teacherService.GetAll());
+
+        public IActionResult Details(int id)
         {
-            var teachers = await _teacherService.GetAllTeachersAsync();
-            return View(teachers);
+            var teacher = _teacherService.GetById(id);
+            if (teacher == null) return NotFound();
+            return View(teacher);
+        }
+
+        public IActionResult Create() => View();
+
+        [HttpPost]
+        public IActionResult Create(Teacher teacher)
+        {
+            if (ModelState.IsValid)
+            {
+                _teacherService.Create(teacher);
+                return RedirectToAction("Index");
+            }
+            return View(teacher);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var teacher = _teacherService.GetById(id);
+            if (teacher == null) return NotFound();
+            return View(teacher);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Teacher teacher)
+        {
+            if (ModelState.IsValid)
+            {
+                _teacherService.Update(teacher);
+                return RedirectToAction("Index");
+            }
+            return View(teacher);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var teacher = _teacherService.GetById(id);
+            if (teacher == null) return NotFound();
+            return View(teacher);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            _teacherService.Delete(id);
+            return RedirectToAction("Index");
         }
     }
 }

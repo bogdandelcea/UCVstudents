@@ -1,0 +1,25 @@
+@model IEnumerable<UCVstudents.Models.Teacher>
+<h2>All Teachers</h2>
+<p><a href="/Teacher/Create">Create New</a></p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th><th>Email</th><th>Sex</th><th>CNP</th><th>Age</th><th>Phone</th><th>Role</th><th>Faculty</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var teacher in Model)
+    {
+        <tr>
+            <td>@teacher.Name</td><td>@teacher.Email</td><td>@teacher.Sex</td>
+            <td>@teacher.CNP</td><td>@teacher.Age</td><td>@teacher.PhoneNr</td>
+            <td>@teacher.Role</td><td>@teacher.Faculty</td>
+            <td>
+                <a href="/Teacher/Edit/@teacher.TeacherId">Edit</a> |
+                <a href="/Teacher/Details/@teacher.TeacherId">Details</a> |
+                <a href="/Teacher/Delete/@teacher.TeacherId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
