@@ -1,0 +1,13 @@
+@model UCVstudents.Models.Teacher
+<h2>Create Teacher</h2>
+<form asp-action="Create" method="post">
+    <label>Name</label><input asp-for="Name" class="form-control" />
+    <label>Email</label><input asp-for="Email" class="form-control" />
+    <label>Sex</label><input asp-for="Sex" class="form-control" />
+    <label>CNP</label><input asp-for="CNP" class="form-control" />
+    <label>Age</label><input asp-for="Age" class="form-control" />
+    <label>Phone</label><input asp-for="PhoneNr" class="form-control" />
+    <label>Role</label><input asp-for="Role" class="form-control" />
+    <label>Faculty</label><input asp-for="Faculty" class="form-control" />
+    <button type="submit">Create</button>
+</form>
