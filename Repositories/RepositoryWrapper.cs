@@ -10,6 +10,9 @@ namespace UCVstudents.Repositories
         private ITeacherRepository? _teacherRepository;
         private ISubjectRepository? _subjectRepository; 
         private IGradeRepository _grade;
+        private IDocumentRepository _document;
+
+
 
         public RepositoryWrapper(ApplicationDbContext context)
         {
@@ -52,6 +55,7 @@ namespace UCVstudents.Repositories
             }
         }
         public IGradeRepository Grade => _grade ??= new GradeRepository(_context);
+        public IDocumentRepository Document => _document ??= new DocumentRepository(_context);
 
         public void Save()
         {
