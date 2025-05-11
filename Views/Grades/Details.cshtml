@@ -1,0 +1,7 @@
+@model UCVstudents.Models.Grade
+<h2>Grade Details</h2>
+<p><strong>Student:</strong> @Model.Student?.FirstName @Model.Student?.LastName</p>
+<p><strong>Subject:</strong> @Model.Subject?.Name</p>
+<p><strong>Value:</strong> @Model.Value</p>
+<p><strong>Date:</strong> @Model.DateReceived.ToShortDateString()</p>
+<p><a href="/Grade/Edit/@Model.GradeId">Edit</a> | <a href="/Grade/Index">Back to List</a></p>
