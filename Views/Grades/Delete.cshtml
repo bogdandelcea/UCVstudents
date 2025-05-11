@@ -1,0 +1,8 @@
+@model UCVstudents.Models.Grade
+<h2>Confirm Delete</h2>
+<p>Are you sure you want to delete grade <strong>@Model.Value</strong> for <strong>@Model.Student?.FirstName @Model.Student?.LastName</strong>?</p>
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="GradeId" />
+    <button type="submit">Yes, Delete</button>
+    <a href="/Grade/Index">Cancel</a>
+</form>
