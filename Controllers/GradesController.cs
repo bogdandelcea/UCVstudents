@@ -5,18 +5,15 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using UCVstudents.Data;
 using UCVstudents.Models;
-
-using Microsoft.AspNetCore.Mvc;
-using UCVstudents.Models;
 using UCVstudents.Services.Interfaces;
 
 namespace UCVstudents.Controllers
 {
-    public class GradeController : Controller
+    public class GradesController : Controller
     {
         private readonly IGradeService _gradeService;
 
-        public GradeController(IGradeService gradeService)
+        public GradesController(IGradeService gradeService)
         {
             _gradeService = gradeService;
         }
