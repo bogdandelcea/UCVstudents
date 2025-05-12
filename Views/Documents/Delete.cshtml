@@ -1,1 +1,11 @@
+@model UCVstudents.Models.Document
 
+<h2>Confirm Delete</h2>
+
+<p>Are you sure you want to delete document of type <strong>@Model.Type</strong> with link <strong>@Model.Link</strong>?</p>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" asp-for="DocumentId" />
+    <button type="submit">Yes, Delete</button>
+    <a href="/Document/Index">Cancel</a>
+</form>
