@@ -1,1 +1,16 @@
+@model UCVstudents.Models.Document
 
+<h2>Create Document</h2>
+
+<form asp-action="Create" method="post">
+    <label>Link</label>
+    <input asp-for="Link" class="form-control" />
+
+    <label>Type</label>
+    <input asp-for="Type" class="form-control" />
+
+    <label>User Id</label>
+    <input asp-for="UserId" class="form-control" />
+
+    <button type="submit" class="btn btn-primary mt-2">Create</button>
+</form>
