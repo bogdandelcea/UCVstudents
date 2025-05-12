@@ -2,6 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using UCVstudents.Data;
 using Microsoft.Extensions.DependencyInjection;
+using UCVstudents.Repositories.Interfaces;
+using UCVstudents.Repositories;
+using UCVstudents.Services.Interfaces;
+using UCVstudents.Services;
 using UCVstudents.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +21,23 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
+builder.Services.AddScoped<IDocumentRepository, DocumentRepository>();
+builder.Services.AddScoped<IDocumentService, DocumentService>();
+
+builder.Services.AddScoped<IGradeService, GradeService>();
+builder.Services.AddScoped<IGradeRepository, GradeRepository>();
+
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 
 // MVC + Razor Pages
 builder.Services.AddControllersWithViews();
