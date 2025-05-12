@@ -1,1 +1,28 @@
+@model IEnumerable<UCVstudents.Models.Document>
 
+<h2>All Documents</h2>
+
+<p><a href="/Document/Create">Create New</a></p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Link</th><th>Type</th><th>User Id</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var document in Model)
+    {
+        <tr>
+            <td>@document.Link</td>
+            <td>@document.Type</td>
+            <td>@document.UserId</td>
+            <td>
+                <a href="/Document/Edit/@document.DocumentId">Edit</a> |
+                <a href="/Document/Details/@document.DocumentId">Details</a> |
+                <a href="/Document/Delete/@document.DocumentId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
