@@ -1,0 +1,23 @@
+@model IEnumerable<UCVstudents.Models.Subject>
+<h2>All Subjects</h2>
+<p><a href="/Subject/Create">Create New</a></p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th><th>Description</th><th>Credits</th><th>Faculty</th><th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var subject in Model)
+    {
+        <tr>
+            <td>@subject.Name</td><td>@subject.Description</td><td>@subject.Credits</td><td>@subject.Faculty</td>
+            <td>
+                <a href="/Subject/Edit/@subject.SubjectId">Edit</a> |
+                <a href="/Subject/Details/@subject.SubjectId">Details</a> |
+                <a href="/Subject/Delete/@subject.SubjectId">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

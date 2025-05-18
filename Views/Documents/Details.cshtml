@@ -1,0 +1,13 @@
+@model UCVstudents.Models.Document
+
+<h2>Document Details</h2>
+
+<p><strong>Link:</strong> @Model.Link</p>
+<p><strong>Type:</strong> @Model.Type</p>
+<p><strong>User Id:</strong> @Model.UserId</p>
+
+<p>
+    <a href="/Document/Edit/@Model.DocumentId">Edit</a> |
+    <a href="/Document/Index">Back to List</a>
+</p>
+

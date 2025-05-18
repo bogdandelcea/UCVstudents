@@ -1,0 +1,18 @@
+@model UCVstudents.Models.Document
+
+<h2>Edit Document</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="DocumentId" />
+
+    <label>Link</label>
+    <input asp-for="Link" class="form-control" />
+
+    <label>Type</label>
+    <input asp-for="Type" class="form-control" />
+
+    <label>User Id</label>
+    <input asp-for="UserId" class="form-control" />
+
+    <button type="submit" class="btn btn-primary mt-2">Save</button>
+</form>
