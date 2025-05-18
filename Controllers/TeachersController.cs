@@ -4,11 +4,11 @@ using UCVstudents.Services.Interfaces;
 
 namespace UCVstudents.Controllers
 {
-    public class TeacherController : Controller
+    public class TeachersController : Controller
     {
         private readonly ITeacherService _teacherService;
 
-        public TeacherController(ITeacherService teacherService)
+        public TeachersController(ITeacherService teacherService)
         {
             _teacherService = teacherService;
         }
