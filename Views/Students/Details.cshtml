@@ -1,10 +1,100 @@
-@model UCVstudents.Models.Student
-<h2>Student Details</h2>
+﻿@model UCVstudents.Models.Student
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<h1>Student Details</h1>
+<hr />
 <div>
-    <strong>First Name:</strong> @Model.FirstName<br />
-    <strong>Last Name:</strong> @Model.LastName<br />
-    <strong>Email:</strong> @Model.Email<br />
-    <strong>Registration Number:</strong> @Model.RegistrationNumber<br />
-    <strong>Enrollment Date:</strong> @Model.EnrollmentDate.ToShortDateString()<br />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNr)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNr)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Class)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Class)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Group)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Group)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Subgroup)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Subgroup)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Scholarship)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Scholarship)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.FinalGrade)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.FinalGrade)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Faculty)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Faculty)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Sex)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sex)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CNP)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CNP)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.YearOfStudy)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.YearOfStudy)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Semester)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Semester)
+        </dd>
+    </dl>
 </div>
-<p><a href="/Student/Edit/@Model.Id">Edit</a> | <a href="/Student/Index">Back to List</a></p>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.StudentId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

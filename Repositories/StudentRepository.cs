@@ -1,30 +1,17 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
 using UCVstudents.Data;
 using UCVstudents.Models;
 using UCVstudents.Repositories.Interfaces;
 
 namespace UCVstudents.Repositories
 {
-    public class StudentRepository : IStudentRepository
+    public class StudentRepository : RepositoryBase<Student>, IStudentRepository
     {
-        private readonly ApplicationDbContext _context;
-
-        public StudentRepository(ApplicationDbContext context)
+        public StudentRepository(ApplicationDbContext applicationDbContext)
+            : base(applicationDbContext)
         {
-            _context = context;
+
         }
 
-        public IEnumerable<Student> GetAll() => _context.Students.ToList();
-
-        public Student GetById(int id) => _context.Students.Find(id);
-
-        public void Create(Student student) => _context.Students.Add(student);
-
-        public void Update(Student student) => _context.Students.Update(student);
-
-        public void Delete(Student student) => _context.Students.Remove(student);
-
-        public void Save() => _context.SaveChanges();
     }
 }

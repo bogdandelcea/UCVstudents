@@ -1,0 +1,38 @@
+﻿div#profile-parent {
+    height: 100%;
+    margin-top: 5%;
+    max-width: 1200px;
+}
+
+tr {
+    background-color: white;
+}
+
+td, th {
+    width: 50%;
+    padding: 5px 0px 5px 8px;
+}
+
+table {
+    width: 100%;
+    border: 0.5px solid #0b5345;
+    margin-bottom: 10px;
+}
+
+#profile-edit-btn {
+    text-decoration: none;
+    position: relative;
+    padding: 5px 10px 5px 20px;
+    background-color: white;
+    border: 0.5px solid #0b5345;
+    color: #0b5345;
+    transition: 0.1s;
+}
+
+#profile-edit-btn img {
+    height: 25px;
+    width: auto;
+    margin: auto;
+    padding-left: 5px;
+    padding-bottom: 5px;
+}

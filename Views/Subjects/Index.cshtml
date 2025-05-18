@@ -1,23 +1,73 @@
-@model IEnumerable<UCVstudents.Models.Subject>
-<h2>All Subjects</h2>
-<p><a href="/Subject/Create">Create New</a></p>
+﻿@model IEnumerable<UCVstudents.Models.Subject>
+
+@{
+    ViewData["Title"] = "Subjects";
+}
+
+<h1>Subjects</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create new subject</a>
+</p>
+
 <table class="table">
     <thead>
         <tr>
-            <th>Name</th><th>Description</th><th>Credits</th><th>Faculty</th><th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NrCredits)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearOfStudy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Semester)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Faculty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Teacher)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var subject in Model)
-    {
-        <tr>
-            <td>@subject.Name</td><td>@subject.Description</td><td>@subject.Credits</td><td>@subject.Faculty</td>
-            <td>
-                <a href="/Subject/Edit/@subject.SubjectId">Edit</a> |
-                <a href="/Subject/Details/@subject.SubjectId">Details</a> |
-                <a href="/Subject/Delete/@subject.SubjectId">Delete</a>
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NrCredits)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearOfStudy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Semester)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Faculty)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Teacher.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.SubjectId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.SubjectId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.SubjectId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

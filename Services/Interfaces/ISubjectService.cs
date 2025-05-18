@@ -1,14 +1,24 @@
-﻿using System.Collections.Generic;
-using UCVstudents.Models;
+﻿using UCVstudents.Models;
 
 namespace UCVstudents.Services.Interfaces
 {
     public interface ISubjectService
     {
-        IEnumerable<Subject> GetAll();
-        Subject GetById(int id);
-        void Create(Subject subject);
-        void Update(Subject subject);
-        void Delete(int id);
+        void CreateSubject(Subject subject);
+
+        void DeleteSubject(Subject subject);
+
+        void UpdateSubject(Subject subject);
+
+        Subject GetSubjectById(int id);
+
+        List<Subject> GetSubjects();
+
+        List<Subject> GetSubjectsPage();
+
+        List<Subject> GetSubjectsByStudentInfo(string faculty, int year);
+
+        List<Subject> GetSubjectsByTeacherId(int id);
     }
 }
+

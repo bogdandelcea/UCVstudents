@@ -1,0 +1,165 @@
+﻿@model dynamic
+@{
+	ViewData["Title"] = "Grades";
+}
+
+<link rel="stylesheet" href="~/css/tables.css" asp-append-version="true" />
+
+<style>
+	th, td {
+		width: 25%;
+	}
+
+	table {
+		margin-bottom: 30px !important;
+		margin-top: 20px !important;
+	}
+</style>
+
+@{
+    Dictionary<string, (double sum, int count)> semesterSumAndCount = new Dictionary<string, (double, int)>();
+    Dictionary<string, double> finalSemesterGrades = new Dictionary<string, double>();
+    Dictionary<int, double> finalYearGrades = new Dictionary<int, double>();
+
+    foreach (var subject in Model.Subjects)
+    {
+        string semesterKey = $"{subject.YearOfStudy}_Semester_{subject.Semester}";
+
+        if (!semesterSumAndCount.ContainsKey(semesterKey))
+        {
+            semesterSumAndCount[semesterKey] = (0, 0);
+        }
+
+        foreach (var grade in Model.Grades)
+        {
+            if (grade.SubjectId == subject.SubjectId)
+            {
+                semesterSumAndCount[semesterKey] = (semesterSumAndCount[semesterKey].sum + grade.GradeValue, semesterSumAndCount[semesterKey].count + 1);
+            }
+        }
+    }
+
+    var sortedSemesterKeys = semesterSumAndCount.Keys.OrderBy(key => key);
+
+    foreach (var semesterKey in sortedSemesterKeys)
+    {
+        double finalSemesterGrade = semesterSumAndCount[semesterKey].sum / semesterSumAndCount[semesterKey].count;
+        finalSemesterGrades[semesterKey] = finalSemesterGrade;
+
+        int year = int.Parse(semesterKey.Split('_')[0]);
+        if (!finalYearGrades.ContainsKey(year))
+        {
+            finalYearGrades[year] = 0;
+        }
+
+        finalYearGrades[year] += finalSemesterGrade;
+    }
+
+    foreach (var yearEntry in finalYearGrades)
+    {
+        finalYearGrades[yearEntry.Key] /= 2; 
+    }
+}
+
+
+<div id=divID>
+@foreach (var semesterKey in sortedSemesterKeys)
+{
+
+    <table>
+        <tbody>
+            <tr>
+                <td><h2>@($"Year {semesterKey.Split('_')[0]} Semester {semesterKey.Split('_')[2]}")</h2></td>
+                <td></td>
+                    <td><strong>Final Semester Grade: @(finalSemesterGrades[semesterKey].ToString("N2"))</strong></td>
+            </tr>
+            @foreach (Subject subject in Model.Subjects)
+            {
+                if (subject.YearOfStudy == int.Parse(semesterKey.Split('_')[0]) && subject.Semester == int.Parse(semesterKey.Split('_')[2]))
+                {
+                    <tr>
+                        <td style="width:33%">
+                            @Html.DisplayFor(modelItem => subject.Name)
+                        </td>
+                        <td style="width:33%">
+                            @Html.DisplayFor(modelItem => subject.Type)
+                        </td>
+                        <td>
+                            @foreach (Grade grade in Model.Grades)
+                            {
+                                if (grade.SubjectId == subject.SubjectId)
+                                {
+                                    @Html.DisplayFor(modelItem => grade.GradeValue)
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+}
+
+@foreach (var yearEntry in finalYearGrades.OrderBy(x => x.Key))
+{
+    <table>
+        <tbody>
+            <tr>
+                <td><h2>@($"Year {yearEntry.Key} Final Grade")</h2></td>
+                <td></td>
+                    <td><strong>@(yearEntry.Value.ToString("N2"))</strong></td>
+            </tr>
+        </tbody>
+    </table>
+}
+</div>
+
+<input type="button" value="Convert HTML to PDF" onclick="convertHTMLtoPDF()" class="btn btn-primary">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script type="text/javascript">
+    function convertHTMLtoPDF() {
+        const { jsPDF } = window.jspdf;
+
+        let doc = new jsPDF('l', 'mm', [1500, 1400]);
+        let pdfjs = document.querySelector('#divID');
+
+        doc.html(pdfjs, {
+            callback: function (doc) {
+                doc.setPage(1); 
+                doc.setFontSize(150);
+                doc.text("Grades report", 250, 150);
+
+                let totalPages = doc.internal.getNumberOfPages();
+
+                for (let i = 1; i <= totalPages; i++) {
+                    doc.setPage(i);
+                    let yOffset = 10; 
+                    let contentHeight = doc.internal.pageSize.height - yOffset * 2;
+                    let contentWidth = doc.internal.pageSize.width;
+
+                    let htmlContent = pdfjs.children[i - 1];
+
+                    html2canvas(htmlContent).then(canvas => {
+                        let imgData = canvas.toDataURL('image/jpeg', 1.0);
+                        doc.addImage(imgData, 'JPEG', 0, yOffset, contentWidth, contentHeight);
+                    });
+
+                    if (i !== totalPages) {
+                        doc.addPage();
+                    }
+                }
+
+                doc.save("MyGrades.pdf");
+            },
+            x: 12,
+            y: 300
+        });
+    }
+</script>
+
+
+

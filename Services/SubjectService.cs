@@ -1,40 +1,146 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
 using UCVstudents.Models;
 using UCVstudents.Repositories.Interfaces;
 using UCVstudents.Services.Interfaces;
 
 namespace UCVstudents.Services
 {
-    public class SubjectService : ISubjectService
+    public class SubjectService: ISubjectService
     {
-        private readonly IRepositoryWrapper _repository;
+        private readonly IRepositoryWrapper _repositoryWrapper;
 
-        public SubjectService(IRepositoryWrapper repository)
+        public SubjectService(IRepositoryWrapper repositoryWrapper)
         {
-            _repository = repository;
+            _repositoryWrapper = repositoryWrapper;
         }
 
-        public IEnumerable<Subject> GetAll() => _repository.Subject.GetAll();
-        public Subject GetById(int id) => _repository.Subject.GetById(id);
-        public void Create(Subject subject)
+        public void CreateSubject(Subject subject)
         {
-            _repository.Subject.Create(subject);
-            _repository.Subject.Save();
-        }
-
-        public void Update(Subject subject)
-        {
-            _repository.Subject.Update(subject);
-            _repository.Subject.Save();
-        }
-
-        public void Delete(int id)
-        {
-            var subject = _repository.Subject.GetById(id);
-            if (subject != null)
+            if (subject == null)
             {
-                _repository.Subject.Delete(subject);
-                _repository.Subject.Save();
+                throw new ArgumentNullException(nameof(subject), "Subject cannot be null.");
+            }
+            _repositoryWrapper.SubjectRepository.Create(subject);
+            _repositoryWrapper.Save();
+        }
+
+        public void DeleteSubject(Subject subject)
+        {
+            if (subject == null)
+            {
+                throw new ArgumentNullException(nameof(subject), "Subject cannot be null.");
+            }
+
+            if (subject.SubjectId <= 0)
+            {
+                throw new ArgumentException("Invalid SubjectId.", nameof(subject.SubjectId));
+            }
+            _repositoryWrapper.SubjectRepository.Delete(subject);
+            _repositoryWrapper.Save();
+        }
+
+        public void UpdateSubject(Subject subject)
+        {
+            if (subject == null)
+            {
+                throw new ArgumentNullException(nameof(subject), "Subject cannot be null.");
+            }
+
+            if (subject.SubjectId <= 0)
+            {
+                throw new ArgumentException("Invalid SubjectId.", nameof(subject.SubjectId));
+            }
+
+            _repositoryWrapper.SubjectRepository.Update(subject);
+            _repositoryWrapper.Save();
+        }
+
+        public Subject GetSubjectById(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException("Invalid SubjectId.", nameof(id));
+            }
+
+            try
+            {
+                var subject = _repositoryWrapper.SubjectRepository.FindByCondition(c => c.SubjectId == id)
+                    .Include(s => s.Teacher)
+                    .FirstOrDefault();
+
+                if (subject == null)
+                {
+                    throw new ArgumentNullException(nameof(subject), "Subject not found.");
+                }
+
+                return subject;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while retrieving the subject by ID.", ex);
+            }
+        }
+
+        public List<Subject> GetSubjects()
+        {
+            try
+            {
+                return _repositoryWrapper.SubjectRepository.FindAll().ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while retrieving subjects.", ex);
+            }
+        }
+
+        public List<Subject> GetSubjectsPage()
+        {
+            try
+            {
+                return _repositoryWrapper.SubjectRepository.FindAll().Include(s => s.Teacher).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while retrieving subjects for the page.", ex);
+            }
+        }
+
+        public List<Subject> GetSubjectsByStudentInfo(string faculty, int year)
+        {
+            if (string.IsNullOrEmpty(faculty))
+            {
+                throw new ArgumentException("Invalid faculty.", nameof(faculty));
+            }
+
+            if (year <= 0)
+            {
+                throw new ArgumentException("Invalid year.", nameof(year));
+            }
+
+            try
+            {
+                return _repositoryWrapper.SubjectRepository.FindByCondition(c => c.Faculty == faculty && c.YearOfStudy <= year).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while retrieving subjects by student info.", ex);
+            }
+        }
+
+        public List<Subject> GetSubjectsByTeacherId(int id)
+        {
+            if (id <= 0)
+            {
+                throw new ArgumentException("Invalid TeacherId.", nameof(id));
+            }
+
+            try
+            {
+                return _repositoryWrapper.SubjectRepository.FindByCondition(c => c.TeacherId == id).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("An error occurred while retrieving subjects by teacher ID.", ex);
             }
         }
     }

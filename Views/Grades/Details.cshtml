@@ -1,7 +1,36 @@
-@model UCVstudents.Models.Grade
-<h2>Grade Details</h2>
-<p><strong>Student:</strong> @Model.Student?.FirstName @Model.Student?.LastName</p>
-<p><strong>Subject:</strong> @Model.Subject?.Name</p>
-<p><strong>Value:</strong> @Model.Value</p>
-<p><strong>Date:</strong> @Model.DateReceived.ToShortDateString()</p>
-<p><a href="/Grade/Edit/@Model.GradeId">Edit</a> | <a href="/Grade/Index">Back to List</a></p>
+﻿@model UCVstudents.Models.Grade
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Grade</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.GradeValue)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.GradeValue)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Student)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Student.StudentId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Subject)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Subject.SubjectId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.GradeId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

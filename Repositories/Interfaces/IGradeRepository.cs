@@ -1,6 +1,8 @@
-﻿namespace UCVstudents.Repositories.Interfaces
+﻿using UCVstudents.Models;
+
+namespace UCVstudents.Repositories.Interfaces
 {
-    public interface IGradeRepository
+    public interface IGradeRepository : IRepositoryBase<Grade>
     {
     }
 }

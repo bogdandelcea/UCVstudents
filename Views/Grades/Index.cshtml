@@ -1,26 +1,53 @@
+﻿@inject SignInManager<IdentityUser> SignInManager
 @model IEnumerable<UCVstudents.Models.Grade>
-<h2>All Grades</h2>
-<p><a href="/Grade/Create">Create New</a></p>
+
+@{
+    ViewData["Title"] = "Grades";
+}
+
+<h1>Grades</h1>
+@if (SignInManager.IsSignedIn(User))
+{
+    @if (User.IsInRole("Teacher"))
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Assign new grade</a>
+        </p>
+    }
+}
 <table class="table">
     <thead>
         <tr>
-            <th>Student</th><th>Subject</th><th>Value</th><th>Date</th><th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.GradeValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Student)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var grade in Model)
-    {
+@foreach (var item in Model) {
         <tr>
-            <td>@grade.Student?.FirstName @grade.Student?.LastName</td>
-            <td>@grade.Subject?.Name</td>
-            <td>@grade.Value</td>
-            <td>@grade.DateReceived.ToShortDateString()</td>
             <td>
-                <a href="/Grade/Edit/@grade.GradeId">Edit</a> |
-                <a href="/Grade/Details/@grade.GradeId">Details</a> |
-                <a href="/Grade/Delete/@grade.GradeId">Delete</a>
+                @Html.DisplayFor(modelItem => item.GradeValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Student.StudentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject.SubjectId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.GradeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.GradeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.GradeId">Delete</a>
             </td>
         </tr>
-    }
+}
     </tbody>
 </table>

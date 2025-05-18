@@ -1,11 +1,64 @@
-@model UCVstudents.Models.Teacher
-<h2>Teacher Details</h2>
-<p><strong>Name:</strong> @Model.Name</p>
-<p><strong>Email:</strong> @Model.Email</p>
-<p><strong>Sex:</strong> @Model.Sex</p>
-<p><strong>CNP:</strong> @Model.CNP</p>
-<p><strong>Age:</strong> @Model.Age</p>
-<p><strong>Phone:</strong> @Model.PhoneNr</p>
-<p><strong>Role:</strong> @Model.Role</p>
-<p><strong>Faculty:</strong> @Model.Faculty</p>
-<p><a href="/Teacher/Edit/@Model.TeacherId">Edit</a> | <a href="/Teacher/Index">Back to List</a></p>
+﻿@model UCVstudents.Models.Teacher
+
+@{
+    ViewData["Title"] = "Teacher Details";
+}
+
+<h1>Teacher Details</h1>
+<hr/>
+<div>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Sex)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Sex)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CNP)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CNP)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Age)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNr)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNr)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Faculty)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Faculty)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.TeacherId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

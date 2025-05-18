@@ -1,0 +1,103 @@
+﻿@model dynamic
+@{
+    ViewData["Title"] = "GradesSubmit";
+}
+@inject UserManager<IdentityUser> UserManager
+
+<link rel="stylesheet" href="~/css/tables.css" asp-append-version="true" />
+
+<style>
+    th, td {
+        width: 25%;
+    }
+
+    #searchInput {
+        border-radius: 0;
+        border: 2px solid #0b5435;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        padding-left: 10px;
+    }
+
+    table {
+        margin-bottom: 30px !important;
+        margin-top: 20px !important;
+    }
+</style>
+
+<br/>
+
+<div class="">
+    <a asp-controller="Grades" asp-action="Create" class="btn btn-primary">Add Grade</a>
+</div>
+@{
+    var tableCounter = 0;
+}
+
+@foreach (var year in new[] { 1, 2, 3, 4 })
+{
+    @foreach (var semester in new[] { 1, 2 })
+    {
+        <table class="table" id="gradesTable@tableCounter">
+            <thead>
+                <tr>
+                    <td colspan="4"><h1>Academic year @year Semester @semester</h1></td>
+                </tr>
+                <tr>
+                    <th>Student Name</th>
+                    <th>Subject</th>
+                    <th>Type</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model.Students)
+                {
+                    var studentSubjects = new List<Tuple<Subject, Grade>>();
+
+                    // Collect subjects and grades for the current student for the current year and semester
+                    foreach (var grade in Model.Grades)
+                    {
+                        foreach (var subject in Model.Subjects)
+                        {
+                            if (grade.StudentId == student.StudentId &&
+                            subject.SubjectId == grade.SubjectId &&
+                            subject.YearOfStudy == year &&
+                            subject.Semester == semester)
+                            {
+                                studentSubjects.Add(Tuple.Create(subject, grade));
+                            }
+                        }
+                    }
+
+                    // Display rows for the current student
+                    if (studentSubjects.Count > 0)
+                    {
+                        <tr>
+                            <td rowspan="@studentSubjects.Count">@student.Name</td>
+                            <td>@studentSubjects[0].Item1.Name</td>
+                            <td>@studentSubjects[0].Item1.Type</td>
+                            <td>
+                                @studentSubjects[0].Item2.GradeValue
+                                <a asp-action="Edit" asp-route-id="@studentSubjects[0].Item2.GradeId">Edit</a>
+                            </td>
+                        </tr>
+                        for (int i = 1; i < studentSubjects.Count; i++)
+                        {
+                            <tr>
+                                <td>@studentSubjects[i].Item1.Name</td>
+                                <td>@studentSubjects[i].Item1.Type</td>
+                                <td>
+                                    @studentSubjects[i].Item2.GradeValue
+                                    <a asp-action="Edit" asp-route-id="@studentSubjects[i].Item2.GradeId">Edit</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </tbody>
+        </table>
+        tableCounter++;
+    }
+}
+

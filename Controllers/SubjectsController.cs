@@ -1,71 +1,175 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
+using UCVstudents.Data;
 using UCVstudents.Models;
 using UCVstudents.Services.Interfaces;
 
 namespace UCVstudents.Controllers
 {
-    public class SubjectController : Controller
+    [Authorize]
+    public class SubjectsController : Controller
     {
         private readonly ISubjectService _subjectService;
+        private readonly ITeacherService _teacherService;
 
-        public SubjectController(ISubjectService subjectService)
+        public SubjectsController(ISubjectService subjectService, ITeacherService teacherService)
         {
             _subjectService = subjectService;
+            _teacherService = teacherService;
         }
 
-        public IActionResult Index() => View(_subjectService.GetAll());
-
-        public IActionResult Details(int id)
+        // GET: Subjects
+        public async Task<IActionResult> Index()
         {
-            var subject = _subjectService.GetById(id);
-            if (subject == null) return NotFound();
+            var subjects = _subjectService.GetSubjectsPage();
+            return View(subjects);
+        }
+
+        // GET: Subjects/Details/5
+        public async Task<IActionResult> Details(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var subject = _subjectService.GetSubjectById(id);
+            if (subject == null)
+            {
+                return NotFound();
+            }
+
             return View(subject);
         }
 
-        public IActionResult Create() => View();
+        // GET: Subjects/Create
+        public IActionResult Create()
+        {
+            ViewData["TeacherId"] = new SelectList(_teacherService.GetTeachersDropdown(), "TeacherId", "TeacherId");
+            return View();
+        }
 
+        // POST: Subjects/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public IActionResult Create(Subject subject)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("SubjectId,Name,NrCredits,YearOfStudy,Semester,Faculty,Type,TeacherId")] Subject subject)
         {
             if (ModelState.IsValid)
             {
-                _subjectService.Create(subject);
-                return RedirectToAction("Index");
+                _subjectService.CreateSubject(subject);
+                return RedirectToAction(nameof(Index));
             }
+            ViewData["TeacherId"] = new SelectList(_teacherService.GetTeachersDropdown(), "TeacherId", "TeacherId", subject.TeacherId);
             return View(subject);
         }
 
-        public IActionResult Edit(int id)
+        // GET: Subjects/Edit/5
+        public async Task<IActionResult> Edit(int id)
         {
-            var subject = _subjectService.GetById(id);
-            if (subject == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var subject = _subjectService.GetSubjectById(id);
+            if (subject == null)
+            {
+                return NotFound();
+            }
+            ViewData["TeacherId"] = new SelectList(_teacherService.GetTeachersDropdown(), "TeacherId", "TeacherId", subject.TeacherId);
             return View(subject);
         }
 
+        // POST: Subjects/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public IActionResult Edit(Subject subject)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("SubjectId,Name,NrCredits,YearOfStudy,Semester,Faculty,Type,TeacherId")] Subject subject)
         {
+            if (id != subject.SubjectId)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
-                _subjectService.Update(subject);
-                return RedirectToAction("Index");
+                try
+                {
+                    _subjectService.UpdateSubject(subject);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SubjectExists(subject.SubjectId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
             }
+            ViewData["TeacherId"] = new SelectList(_teacherService.GetTeachersDropdown(), "TeacherId", "TeacherId", subject.TeacherId);
             return View(subject);
         }
 
-        public IActionResult Delete(int id)
+        // GET: Subjects/Delete/5
+        public async Task<IActionResult> Delete(int id)
         {
-            var subject = _subjectService.GetById(id);
-            if (subject == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var subject = _subjectService.GetSubjectById(id);
+            if (subject == null)
+            {
+                return NotFound();
+            }
+
             return View(subject);
         }
 
+        // POST: Subjects/Delete/5
         [HttpPost, ActionName("Delete")]
-
-        public IActionResult DeleteConfirmed(int id)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _subjectService.Delete(id);
-            return RedirectToAction("Index");
+            var subject = _subjectService.GetSubjectById(id);
+            if (subject != null)
+            {
+                _subjectService.DeleteSubject(subject);
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult SubjectList(string id)
+        {
+            var teacher = _teacherService.GetTeacherByUserId(id);
+            if (teacher == null)
+            {
+                return NotFound();
+            }
+            var subjects = _subjectService.GetSubjectsByTeacherId(teacher.TeacherId);
+
+            if (subjects == null)
+            {
+                return NotFound();
+            }
+
+            return View(subjects);
+        }
+
+        private bool SubjectExists(int id)
+        {
+            return _subjectService.GetSubjectById(id) != null;
         }
     }
 }

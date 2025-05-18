@@ -9,7 +9,7 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #208d77;
 }
 
 html {
@@ -18,14 +18,63 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    color: #0b5345;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.navbar {
+    border: 0px !important;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+.nav-link {
+    transition: 0.3s;
+}
+
+.navbar-brand {
+    border-right: 3px solid #0b5345;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-right: 0px;
+    transition: 0.3s;
+}
+
+    ul li:last-child a.nav-link {
+        border-right: 0px;
+    }
+
+form button.nav-link {
+    border-right: 0px;
+}
+
+.nav-link:hover,
+.navbar-brand:hover {
+    background-color: #66a195;
+}
+
+.navbar-light .navbar-brand {
+    color: #0b5345;
+}
+
+.navbar {
+    background-color: #c0d9d4;
+    height: 60px;
+}
+
+.landing-text {
+    text-align: center;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #0b5345;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #0b5345;
+    border-color: #0b5345;
+}
+
+a {
+    color: #0b5345;
+    text-decoration: underline;
 }

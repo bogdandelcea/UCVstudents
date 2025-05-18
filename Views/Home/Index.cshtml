@@ -1,8 +1,13 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">My First Azure Deployment</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="landing-text">
+        <h1>UCVstudents</h1>
+        <img src="~/images/student.png" alt="UCVstudents Banner" style="width:100%; max-height:600px;" />
+
+    </div>
 </div>

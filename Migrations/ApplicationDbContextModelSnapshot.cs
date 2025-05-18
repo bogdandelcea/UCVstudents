@@ -17,7 +17,7 @@ namespace UCVstudents.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.4")
+                .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -224,36 +224,150 @@ namespace UCVstudents.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("UCVstudents.Models.Student", b =>
+            modelBuilder.Entity("UCVstudents.Models.Document", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("DocumentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DocumentId"));
+
+                    b.Property<string>("Link")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("DocumentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Document");
+                });
+
+            modelBuilder.Entity("UCVstudents.Models.Grade", b =>
+                {
+                    b.Property<int>("GradeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GradeId"));
+
+                    b.Property<double?>("GradeValue")
+                        .HasColumnType("float");
+
+                    b.Property<int?>("StudentId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GradeId");
+
+                    b.HasIndex("StudentId");
+
+                    b.HasIndex("SubjectId");
+
+                    b.ToTable("Grade");
+                });
+
+            modelBuilder.Entity("UCVstudents.Models.Student", b =>
+                {
+                    b.Property<int>("StudentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StudentId"));
+
+                    b.Property<int?>("Age")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CNP")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Class")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("EnrollmentDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
+                    b.Property<string>("Faculty")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
+                    b.Property<double?>("FinalGrade")
+                        .HasColumnType("float");
+
+                    b.Property<string>("Group")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RegistrationNumber")
-                        .IsRequired()
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("PhoneNr")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Students");
+                    b.Property<bool?>("Scholarship")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("Semester")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Sex")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subgroup")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int?>("YearOfStudy")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Student");
+                });
+
+            modelBuilder.Entity("UCVstudents.Models.Subject", b =>
+                {
+                    b.Property<int>("SubjectId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubjectId"));
+
+                    b.Property<string>("Faculty")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NrCredits")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Semester")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TeacherId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("YearOfStudy")
+                        .HasColumnType("int");
+
+                    b.HasKey("SubjectId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("Subject");
                 });
 
             modelBuilder.Entity("UCVstudents.Models.Teacher", b =>
@@ -295,7 +409,7 @@ namespace UCVstudents.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teacher");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -349,6 +463,48 @@ namespace UCVstudents.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("UCVstudents.Models.Document", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UCVstudents.Models.Grade", b =>
+                {
+                    b.HasOne("UCVstudents.Models.Student", "Student")
+                        .WithMany("Grades")
+                        .HasForeignKey("StudentId");
+
+                    b.HasOne("UCVstudents.Models.Subject", "Subject")
+                        .WithMany("Grades")
+                        .HasForeignKey("SubjectId");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("UCVstudents.Models.Student", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UCVstudents.Models.Subject", b =>
+                {
+                    b.HasOne("UCVstudents.Models.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId");
+
+                    b.Navigation("Teacher");
+                });
+
             modelBuilder.Entity("UCVstudents.Models.Teacher", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
@@ -356,6 +512,16 @@ namespace UCVstudents.Migrations
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("UCVstudents.Models.Student", b =>
+                {
+                    b.Navigation("Grades");
+                });
+
+            modelBuilder.Entity("UCVstudents.Models.Subject", b =>
+                {
+                    b.Navigation("Grades");
                 });
 #pragma warning restore 612, 618
         }

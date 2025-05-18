@@ -2,18 +2,29 @@
 
 namespace UCVstudents.Helpers
 {
-    public static class RoleSeeder
+    public class RoleSeeder
     {
-        public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
+        public static async Task SeedRolesAsync(IServiceProvider serviceProvider)
         {
-            string[] roleNames = { "Admin", "Student", "Teacher" };
-
-            foreach (var roleName in roleNames)
+            var logger = serviceProvider.GetRequiredService<ILogger<RoleSeeder>>();
+            try
             {
-                if (!await roleManager.RoleExistsAsync(roleName))
+                var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+                var roles = new[] { "Admin", "Student", "Teacher" };
+
+                foreach (var role in roles)
                 {
-                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                    if (!await roleManager.RoleExistsAsync(role))
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(role));
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while seeding roles.");
             }
         }
     }

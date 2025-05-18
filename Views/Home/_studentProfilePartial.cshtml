@@ -1,0 +1,130 @@
+﻿@model UCVstudents.Models.Student 
+
+@{
+    ViewData["Title"] = "Details";
+}
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    var currentUser = await UserManager.GetUserAsync(User);
+}
+
+<link rel="stylesheet" href="~/css/profile-info.css" asp-append-version="true" />
+
+<div id="profile-parent">
+    <table>
+        <tr>
+            <th class="personal-info">
+                Personal Information
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Name)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Email)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Gender
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Sex)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.CNP)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.CNP)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Age)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.PhoneNr)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.PhoneNr)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Faculty)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Faculty)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Class)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Class)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Group)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Group)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Subgroup)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Subgroup)
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+                @Html.DisplayNameFor(model => model.Scholarship)
+            </td>
+            @if (Model.Scholarship == true)
+            {
+                <td>
+                    Yes
+                </td>
+            }
+            else
+            {
+                <td>
+                    No
+                </td>
+            }
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.FinalGrade)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.FinalGrade)
+            </td>
+        </tr>
+    </table>
+    <a class="btn btn-primary" asp-controller="Students" asp-action="ProfileStudentEdit" asp-route-id="@Model.StudentId">Edit</a>
+</div>

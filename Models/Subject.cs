@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-
+using System.ComponentModel.DataAnnotations.Schema;
 namespace UCVstudents.Models
 {
     public class Subject
@@ -7,17 +7,22 @@ namespace UCVstudents.Models
         [Key]
         public int SubjectId { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
-        [StringLength(100)]
-        public string Name { get; set; } = string.Empty;
+        public string? Name { get; set; }
+        public int? NrCredits { get; set; }
 
-        [StringLength(250)]
-        public string? Description { get; set; }
+        public int? YearOfStudy { get; set; }
+        public int? Semester { get; set; }
 
-        [Range(1, 30)]
-        public int? Credits { get; set; }
-
-        [StringLength(100)]
         public string? Faculty { get; set; }
+
+        public string? Type { get; set; }
+
+        public int? TeacherId { get; set; }
+
+        [ForeignKey("TeacherId")]
+        public Teacher ? Teacher { get; set; }
+
+        public ICollection<Grade>? Grades { get; set; }
+
     }
 }

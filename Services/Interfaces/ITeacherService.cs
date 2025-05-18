@@ -1,14 +1,22 @@
-using System.Collections.Generic;
-using UCVstudents.Models;
+﻿using UCVstudents.Models;
 
 namespace UCVstudents.Services.Interfaces
 {
     public interface ITeacherService
     {
-        IEnumerable<Teacher> GetAll();
-        Teacher GetById(int id);
-        void Create(Teacher teacher);
-        void Update(Teacher teacher);
-        void Delete(int id);
+        void CreateTeacher(Teacher teacher);
+    
+        void DeleteTeacher(Teacher teacher);
+
+        void UpdateTeacher(Teacher teacher);
+
+        List<Teacher> GetTeachers();
+
+        List<Teacher> GetTeachersDropdown();
+
+        Teacher GetTeacherByUserId(string id);
+
+        Teacher GetTeacherById(int id);
     }
 }
+

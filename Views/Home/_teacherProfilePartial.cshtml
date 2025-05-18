@@ -1,0 +1,89 @@
+﻿@model UCVstudents.Models.Teacher
+
+@{
+    ViewData["Title"] = "Details";
+}
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    var currentUser = await UserManager.GetUserAsync(User);
+}
+
+<link rel="stylesheet" href="~/css/profile-info.css" asp-append-version="true" />
+
+<div id="profile-parent">
+    <table>
+        <tr>
+            <th class="personal-info">
+                Personal Information
+            </th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Name)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Email)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Gender
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Sex)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.CNP)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.CNP)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Age)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.PhoneNr)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.PhoneNr)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Role)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayNameFor(model => model.Faculty)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.Faculty)
+            </td>
+        </tr>
+    </table>
+    <a class="btn btn-primary" asp-controller="Teachers" asp-action="ProfileTeacherEdit" asp-route-id="@Model.TeacherId">Edit</a>
+</div>
+

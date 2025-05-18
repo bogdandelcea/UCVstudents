@@ -2,10 +2,12 @@
 {
     public interface IRepositoryWrapper
     {
-        IStudentRepository Student { get; }
-        ITeacherRepository Teacher { get; }
-        // Adaugă și altele ulterior (ex: ITeacherRepository, IUserRepository etc.)
-        ISubjectRepository Subject { get; }
+        ITeacherRepository TeacherRepository { get; }
+        ISubjectRepository SubjectRepository { get; }
+        IDocumentRepository DocumentRepository { get; }
+        IGradeRepository GradeRepository { get; }
+        IStudentRepository StudentRepository { get; }
+        IUserRepository UserRepository { get; }
 
         void Save();
     }
