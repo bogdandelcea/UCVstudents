@@ -4,11 +4,11 @@ using UCVstudents.Services.Interfaces;
 
 namespace UCVstudents.Controllers
 {
-    public class SubjectController : Controller
+    public class SubjectsController : Controller
     {
         private readonly ISubjectService _subjectService;
 
-        public SubjectController(ISubjectService subjectService)
+        public SubjectsController(ISubjectService subjectService)
         {
             _subjectService = subjectService;
         }
